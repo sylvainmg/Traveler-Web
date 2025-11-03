@@ -1,10 +1,8 @@
-import React from "react";
 import {
     BrowserRouter as Router,
     Routes,
     Route,
     Navigate,
-    useNavigate,
 } from "react-router-dom";
 import Accueil from "./pages/Accueil.jsx";
 import Formulaire from "./pages/Formulaire.tsx";
@@ -18,6 +16,7 @@ import { FaSpinner } from "react-icons/fa";
 import Dashboard from "./pages/dashboard.tsx";
 import AuthProviderWrapper from "./provider/AuthProviderWrapper.tsx";
 import TokenAPI from "./api/TokenAPI.ts";
+import NavbarProvider from "./provider/NavbarProvider.tsx";
 
 export default function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -72,44 +71,59 @@ export default function App() {
         );
 
     return (
-        <Router>
-            <Routes>
-                <Route
-                    path="/"
-                    element={token ? <Navigate to="/home" /> : <Accueil />}
-                />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route
-                    path="/login"
-                    element={<Login setIsAuthenticated={setIsAuthenticated} />}
-                />
-                <Route
-                    path="/signin"
-                    element={<Signin setIsAuthenticated={setIsAuthenticated} />}
-                />
-
-                <Route
-                    element={
-                        <AuthProviderWrapper
-                            props={{ id, refreshToken, setId, setToken, token }}
-                        />
-                    }
-                >
+        <NavbarProvider isAuthenticated={isAuthenticated}>
+            <Router>
+                <Routes>
                     <Route
-                        path="/home"
+                        path="/"
+                        element={token ? <Navigate to="/home" /> : <Accueil />}
+                    />
+                    <Route
+                        path="/forgot-password"
+                        element={<ForgotPassword />}
+                    />
+                    <Route
+                        path="/login"
                         element={
-                            isAuthenticated ? (
-                                <Dashboard />
-                            ) : (
-                                <Navigate to="/login" />
-                            )
+                            <Login setIsAuthenticated={setIsAuthenticated} />
                         }
                     />
-                    <Route path="/formulaire" element={<Formulaire />} />
-                    <Route path="/pages/:pageType" element={<Pages />} />
-                    <Route path="/avis" element={<AvisForm />} />
-                </Route>
-            </Routes>
-        </Router>
+                    <Route
+                        path="/signin"
+                        element={
+                            <Signin setIsAuthenticated={setIsAuthenticated} />
+                        }
+                    />
+
+                    <Route
+                        element={
+                            <AuthProviderWrapper
+                                props={{
+                                    id,
+                                    refreshToken,
+                                    setId,
+                                    setToken,
+                                    token,
+                                }}
+                            />
+                        }
+                    >
+                        <Route
+                            path="/home"
+                            element={
+                                isAuthenticated ? (
+                                    <Dashboard />
+                                ) : (
+                                    <Navigate to="/login" />
+                                )
+                            }
+                        />
+                        <Route path="/formulaire" element={<Formulaire />} />
+                        <Route path="/pages/:pageType" element={<Pages />} />
+                        <Route path="/avis" element={<AvisForm />} />
+                    </Route>
+                </Routes>
+            </Router>
+        </NavbarProvider>
     );
 }

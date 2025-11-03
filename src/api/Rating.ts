@@ -22,8 +22,8 @@ export default async function rating(
             body: JSON.stringify(userRating),
         });
         if (!response.ok) return null;
-
         const data = await response.json();
+
         return data;
     } catch (err) {
         console.error(err);

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import TokenAPI from "../api/TokenAPI";
+import React from "react";
 import { AuthContext } from "../contexts/AuthContext";
 
 const AuthProvider = ({
