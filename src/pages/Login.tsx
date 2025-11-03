@@ -51,7 +51,7 @@ export default function Login() {
                         confirmButton: "custom-confirm-button",
                     },
                 }).then((result) => {
-                    navigate("/");
+                    navigate("/home");
                 });
             }
 
