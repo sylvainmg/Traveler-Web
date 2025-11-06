@@ -26,8 +26,7 @@ function Avis() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Récupère la réservation depuis le state
-  useEffect(() => {
+   useEffect(() => {
     try {
       
       let reservationData = location.state?.reservation;
@@ -40,8 +39,7 @@ function Avis() {
       }
 
       if (reservationData) {
-        console.log("📋 Réservation chargée:", reservationData);
-
+   
         setReservation(reservationData);
       } else {
         setError("Impossible de charger les données de la réservation");
@@ -81,7 +79,6 @@ function Avis() {
     }
 
     if (!token) {
-      console.error("❌ Token manquant!");
       Swal.fire({
         icon: "error",
         text: "Session expirée, veuillez vous reconnecter",
@@ -152,9 +149,7 @@ function Avis() {
     try {
       setLoading(true);
 
-      console.log("🔑 Token utilisé:", token ? "✓ Présent" : "✗ Manquant");
-      console.log("📋 ID Réservation:", reservation.num_reservation);
-
+   
       // Données  requises par l'API
       const ratingData = {
         num_reservation: Number(reservation.num_reservation),
@@ -166,19 +161,12 @@ function Avis() {
         avis_compagnie_aerienne_retour: String(ratings.vol_retour.avis).trim(),
       };
 
-      console.log("📤 Envoi des avis - Payload MINIMALISTE:");
-      console.log(JSON.stringify(ratingData, null, 2));
-      console.log("📊 Types des données:");
-      console.log("  - num_reservation:", typeof ratingData.num_reservation, ratingData.num_reservation);
-      console.log("  - note_hotel:", typeof ratingData.note_hotel, ratingData.note_hotel);
-      console.log("  - avis_hotel:", typeof ratingData.avis_hotel, ratingData.avis_hotel.substring(0, 50));
 
       const response = await rating(token, ratingData);
 
       console.log("📊 Réponse reçue:", response);
 
       if (response && response.status === 403) {
-        console.error("❌ Erreur 403 Forbidden:", response.error);
         Swal.fire({
           icon: "error",
           title: "Accès refusé",
@@ -190,10 +178,7 @@ function Avis() {
           navigate("/login");
         });
       } else if (response && response.status === 500) {
-        console.error("❌ Erreur serveur 500:", response.error);
-        console.error("📋 URL appelée:", response.url);
-        console.error("📋 Payload envoyé:", response.payload);
-        Swal.fire({
+         Swal.fire({
           icon: "error",
           title: "Erreur serveur 500",
           html: `
@@ -218,8 +203,7 @@ function Avis() {
           navigate("/home");
         });
       } else if (response && response.status === 500) {
-        console.error("❌ Erreur serveur 500:", response.error);
-        Swal.fire({
+          Swal.fire({
           icon: "error",
           title: "Erreur serveur",
           text: "L'API a retourné une erreur 500. Vérifiez les données envoyées.",
@@ -229,8 +213,7 @@ function Avis() {
         throw new Error(response?.error || "Erreur inconnue");
       }
     } catch (err) {
-      console.error("❌ Erreur:", err);
-      Swal.fire({
+    Swal.fire({
         icon: "error",
         text: err instanceof Error ? err.message : "Erreur lors de l'enregistrement des avis",
         confirmButtonText: "OK",

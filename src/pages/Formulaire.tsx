@@ -68,18 +68,14 @@ export default function Formulaire() {
       setUserId(activeId || null);
       setIsReady(true);
 
-      console.log("🔑 Token final chargé:", !!activeToken);
-      console.log("👤 ID final chargé:", activeId);
     };
 
     loadAuth();
   }, [contextToken, contextId, refreshToken]);
 
-  // Vérifie si authentifié
-  const isAuthenticated = token && isTokenValid(token);
+   const isAuthenticated = token && isTokenValid(token);
 
-  // Charge les options disponibles quand pays changent
-  useEffect(() => {
+   useEffect(() => {
     const loadOptions = async () => {
       if (!isAuthenticated || !token || paysDepart === paysArrivee) {
         setOptionsDisponibles([]);
@@ -87,15 +83,12 @@ export default function Formulaire() {
       }
 
       setLoadingOptions(true);
-      console.log("📡 Récupération options pour:", paysDepart, "->", paysArrivee);
-
+   
       const result = await getAvailableFlights(token, paysDepart, paysArrivee);
       
-      console.log("📦 Réponse API:", result);
-
+   
       if (result?.vols && result?.hotels && Array.isArray(result.vols) && Array.isArray(result.hotels)) {
-        // Crée toutes les combinaisons possibles (vol + hôtel)
-        const combinaisons: any[] = [];
+           const combinaisons: any[] = [];
         
         result.vols.forEach((volPair: any) => {
           result.hotels.forEach((hotel: any) => {
@@ -123,11 +116,9 @@ export default function Formulaire() {
         });
 
         setOptionsDisponibles(combinaisons);
-        console.log("✅ Combinaisons créées:", combinaisons.length);
       } else {
         setOptionsDisponibles([]);
-        console.log("⚠️ Structure API non reconnue. Vols:", result?.vols?.length, "Hôtels:", result?.hotels?.length);
-      }
+       }
 
       setLoadingOptions(false);
     };
@@ -174,14 +165,7 @@ export default function Formulaire() {
       const num_vol_retourner = selectedOption.num_vol_retour;
       const num_chambre = selectedOption.num_chambre;
       const id_client = userId;
-      const code = typeReservation; // ✅ Utilise le type sélectionné (IND ou GRP)
-
-      console.log("📡 Envoi réservation:");
-      console.log("  num_vol:", num_vol);
-      console.log("  num_vol_retourner:", num_vol_retourner);
-      console.log("  num_chambre:", num_chambre);
-      console.log("  id_client:", id_client);
-      console.log("  code:", code);
+      const code = typeReservation; 
 
       const response = await createBookings(
         token!,
@@ -195,7 +179,6 @@ export default function Formulaire() {
       console.log("📦 Réponse serveur:", response);
 
       if (response && (response.success || response.status === 200 || response.message)) {
-        // Après succès de createBookings
         if (response?.num_reservation) {
           // Stockez TOUS les nums_reservation dans un array
           let reservations = JSON.parse(localStorage.getItem("userReservations") || "[]");
@@ -236,8 +219,7 @@ export default function Formulaire() {
         });
       }
     } catch (error) {
-      console.error("❌ Erreur:", error);
-      Swal.fire({
+       Swal.fire({
         icon: "error",
         text: "Une erreur s'est produite.",
         confirmButtonText: "OK",

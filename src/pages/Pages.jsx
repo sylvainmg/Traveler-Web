@@ -195,8 +195,7 @@ export default function Pages() {
                 localStorage.setItem("selectedVolAller", JSON.stringify(flightData));
                 currentData.volAller = item.nom;
             } else if (volType === "retour") {
-                console.log("💾 Sauvegarde vol RETOUR:", flightData);
-                localStorage.setItem("selectedVolRetour", JSON.stringify(flightData));
+              localStorage.setItem("selectedVolRetour", JSON.stringify(flightData));
                 currentData.volRetour = item.nom;
             } else {
                 console.log("💾 Sauvegarde vol (legacy):", flightData);
@@ -209,8 +208,7 @@ export default function Pages() {
         if (budgetFilter) currentData.budget = budgetFilter;
 
         localStorage.setItem("formData", JSON.stringify(currentData));
-        console.log("✅ Données sauvegardées dans localStorage");
-        navigate("/formulaire");
+         navigate("/formulaire");
     };
 
     return (

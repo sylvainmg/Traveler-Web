@@ -37,8 +37,7 @@ export default function Card({
             return;
         }
 
-        // Si onReserve est passé, utilise-le (depuis Pages.jsx)
-        if (onReserve) {
+         if (onReserve) {
             const itemData = {
                 type,
                 id,

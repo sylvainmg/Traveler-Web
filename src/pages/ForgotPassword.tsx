@@ -30,9 +30,7 @@ function ForgotPassword() {
     };
 
     const handleBackToLogin = () => {
-        // Redirection vers la page de connexion
-        window.history.back();
-        // ou: window.location.href = '/login';
+         window.history.back();
     };
 
     if (isSubmitted) {

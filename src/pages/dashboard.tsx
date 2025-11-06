@@ -33,19 +33,15 @@ function Dashboard() {
 
   // Charge les données du dashboard
   const loadDashboardData = async () => {
-    console.log("🔍 Token:", !!token);
-    console.log("🔍 User ID:", userId);
-
+  
     if (!token || !userId) {
-      console.log("⚠️ Token ou User ID manquant, skip fetch");
-      setLoading(false);
+    setLoading(false);
       return;
     }
 
     try {
       setLoading(true);
-      console.log("📡 Fetching dashboard data from client API...");
-
+   
       const userData = await clients(token, userId);
 
       if (userData) {
@@ -54,8 +50,7 @@ function Dashboard() {
 
         setUserInfo(userData);
 
-        // Récupère les réservations
-        const userReservations = userData.reservations || [];
+      const userReservations = userData.reservations || [];
         setReservations(userReservations);
 
         // Stats
@@ -63,16 +58,12 @@ function Dashboard() {
         const active = userData.active || 0;
         setStats({ total, active });
 
-        console.log("✅ Stats:", { total, active });
-        console.log("✅ Réservations:", userReservations.length);
       } else {
-        console.log("⚠️ Pas de données utilisateur");
         setUserInfo(null);
         setReservations([]);
       }
     } catch (err) {
-      console.error("❌ Erreur API dashboard:", err);
-      setUserInfo(null);
+       setUserInfo(null);
       setReservations([]);
     } finally {
       setLoading(false);
@@ -81,7 +72,7 @@ function Dashboard() {
 
   // Charge les données au démarrage
   useEffect(() => {
-    
+
     loadDashboardData();
   }, [token, userId]);
 
@@ -93,7 +84,6 @@ function Dashboard() {
   }, [location.pathname]);
 
   const handleLogout = () => {
-    console.log("🚪 Déconnexion");
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
@@ -102,9 +92,7 @@ function Dashboard() {
   };
 
   const handleGiveReview = (reservation) => {
-    console.log("🔍 DEBUG - Réservation brute:", reservation);
-    console.log("🔍 DEBUG - Clés disponibles:", Object.keys(reservation));
-    
+   
     // Récupère le num_reservation avec fallback sur les clés en minuscules ET majuscules
     const numReservation = 
       reservation?.NUM_RESERVATION || 
@@ -112,13 +100,9 @@ function Dashboard() {
       reservation?.id ||
       null;
     
-    console.log("🎫 num_reservation trouvé:", numReservation);
-    console.log("🔑 Type:", typeof numReservation);
-  
+   
     if (!numReservation) {
-      console.error("❌ ERREUR: Impossible de trouver le numéro de réservation!");
-      console.log("🔍 Contenu complet de la réservation:", JSON.stringify(reservation, null, 2));
-      Swal.fire({
+       Swal.fire({
         icon: "error",
         title: "Erreur",
         text: "Impossible de récupérer le numéro de réservation",

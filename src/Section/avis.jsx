@@ -36,7 +36,7 @@ export default function AvisSection({
           const itemId = item.id || item.num_chambre || item.num_vol;
           
           if (!itemId) {
-            console.warn("⚠️ ID manquant pour:", item);
+            console.warn(" ID manquant pour:", item);
             continue;
           }
 
@@ -64,15 +64,14 @@ export default function AvisSection({
             }))];
           }
         } catch (err) {
-          console.error(`❌ Erreur avis ${type} ${item.id}:`, err);
+          console.error(` Erreur avis ${type} ${item.id}:`, err);
         }
       }
 
   
       const shuffled = allAvis.sort(() => Math.random() - 0.5);
       setAvis(shuffled);
-      console.log("✅ Total avis chargés:", shuffled.length);
-
+ 
       if (shuffled.length === 0) {
         Swal.fire({
           icon: "info",
@@ -81,7 +80,6 @@ export default function AvisSection({
         });
       }
     } catch (err) {
-      console.error("❌ Erreur chargement avis:", err);
       Swal.fire({
         icon: "error",
         text: "Erreur lors du chargement des avis",
