@@ -11,6 +11,7 @@ export async function login(admin: { email: string; password: string }) {
 
     const data = await response.json();
     localStorage.setItem("refreshToken", data.refreshToken);
+
     return {
         token: data.accessToken,
         status: response.status,

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { User, Lock, Eye, EyeOff, LogIn } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 // @ts-ignore
@@ -11,8 +11,10 @@ import { AuthContext, useAuth } from "../contexts/AuthContext";
 
 export default function Login({
     setIsAuthenticated,
+    setId,
 }: {
     setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+    setId: React.Dispatch<React.SetStateAction<number | null>>;
 }) {
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({

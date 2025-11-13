@@ -8,7 +8,7 @@ import {
 import Accueil from "./pages/Accueil.jsx";
 import Formulaire from "./pages/Formulaire.tsx";
 import Hotels from "./pages/Hotels.jsx";
-import Airlines from "./pages/Compagnie.jsx"
+import Airlines from "./pages/Compagnie.jsx";
 import Login from "./pages/Login.js";
 import Signin from "./pages/Signin.js";
 import AvisForm from "./pages/AvisForm.jsx";
@@ -50,7 +50,7 @@ export default function App() {
                 setToken(data.accessToken);
             }
         })();
-    }, []);
+    }, [token]);
 
     useEffect(() => {
         (async () => {
@@ -79,11 +79,14 @@ export default function App() {
                         path="/"
                         element={token ? <Navigate to="/home" /> : <Accueil />}
                     />
-                   
+
                     <Route
                         path="/login"
                         element={
-                            <Login setIsAuthenticated={setIsAuthenticated} />
+                            <Login
+                                setId={setId}
+                                setIsAuthenticated={setIsAuthenticated}
+                            />
                         }
                     />
                     <Route
@@ -110,7 +113,7 @@ export default function App() {
                             path="/home"
                             element={
                                 isAuthenticated ? (
-                                    <Dashboard />
+                                    <Dashboard token={token || ""} />
                                 ) : (
                                     <Navigate to="/login" />
                                 )
